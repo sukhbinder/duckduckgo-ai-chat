@@ -10,10 +10,14 @@ CLI to use DuckDuckGo AI Chat service from terminal
 ## Installation
 
 Install this tool using `pip`:
+
 ```bash
 pip install duckduckgo-ai-chat
 ```
 ## Usage
+
+![Duckduck-aichat](demo-duckchat.gif)
+
 
 For help, run:
 ```bash
