@@ -16,7 +16,7 @@ pip install duckduckgo-ai-chat
 ```
 ## Usage
 
-![Duckduck-aichat](demo-duckchat.gif)
+![Duckduck-aichat](https://raw.githubusercontent.com/sukhbinder/duckduckgo-aichat/main/demo-duckchat.gif)
 
 
 For help, run:
