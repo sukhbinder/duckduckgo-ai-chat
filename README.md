@@ -7,6 +7,13 @@
 
 CLI to use DuckDuckGo AI Chat service from terminal
 
+> Based on the ideas of [duckduckGO-chat-cli](https://github.com/benoitpetit/duckduckGO-chat-cli)
+
+## Disclaimer
+By using this client you accept [DuckDuckGo AI Chat ToS](https://duckduckgo.com/aichat/privacy-terms)
+
+
+
 ## Installation
 
 Install this tool using `pip`:
