@@ -1,8 +1,7 @@
 import argparse
-
+from duckduckgo_ai_chat.app import mainrun
 def create_parser():
     parser = argparse.ArgumentParser(description="CLI to use DuckDuckGo AI Chat service from terminal")
-    parser.add_argument("name", type=str, help="Dummy argument")
     return parser
 
 
@@ -14,4 +13,4 @@ def cli():
 
 
 def mycommand(args):
-    print(args)
+    _ = mainrun()
