@@ -16,7 +16,7 @@ By using this client you accept [DuckDuckGo AI Chat ToS](https://duckduckgo.com/
 
 | Model | Performance | Best For | Features |
 |-------|------------|----------|-----------|
-| **GPT-4o mini** | Fast | Quick answers & basic tasks | • Default model<br>• General-purpose |
+| **GPT-4o mini** | Fast | Quick answers & basic tasks | • General-purpose |
 | **Claude 3 Haiku** | Balanced | Technical discussions | • Good context handling<br>• Structured responses |
 | **Llama 3.3** | Code-optimized | Programming tasks | • Documentation analysis<br>• Code generation |
 | **Mixtral 8x7B** | Knowledge-focused | Complex topics | • Detailed explanations<br>• Deep analysis |
