@@ -9,27 +9,6 @@ CLI to use DuckDuckGo AI Chat service from terminal
 
 > Based on the ideas of [duckduckGO-chat-cli](https://github.com/benoitpetit/duckduckGO-chat-cli)
 
-## Disclaimer
-By using this client you accept [DuckDuckGo AI Chat ToS](https://duckduckgo.com/aichat/privacy-terms)
-
-## Available Models
-
-| Model | Performance | Best For | Features |
-|-------|------------|----------|-----------|
-| **GPT-4o mini** | Fast | Quick answers & basic tasks | • General-purpose |
-| **Claude 3 Haiku** | Balanced | Technical discussions | • Good context handling<br>• Structured responses |
-| **Llama 3.3** | Code-optimized | Programming tasks | • Documentation analysis<br>• Code generation |
-| **Mixtral 8x7B** | Knowledge-focused | Complex topics | • Detailed explanations<br>• Deep analysis |
-| **o3-mini** | Fastest | Simple queries | • Lightweight<br>• Quick responses |
-
-
-## Installation
-
-Install this tool using `pip`:
-
-```bash
-pip install duckduckgo-ai-chat
-```
 ## Usage
 
 ![Duckduck-aichat](https://raw.githubusercontent.com/sukhbinder/duckduckgo-aichat/main/demo-duckchat.gif)
@@ -64,6 +43,25 @@ optional arguments:
   -y, --yes             If provided, means user accept terms of service.
 
 ```
+
+## Available Models
+
+| Model | Performance | Best For | Features |
+|-------|------------|----------|-----------|
+| **GPT-4o mini** | Fast | Quick answers & basic tasks | • General-purpose |
+| **Claude 3 Haiku** | Balanced | Technical discussions | • Good context handling<br>• Structured responses |
+| **Llama 3.3** | Code-optimized | Programming tasks | • Documentation analysis<br>• Code generation |
+| **Mixtral 8x7B** | Knowledge-focused | Complex topics | • Detailed explanations<br>• Deep analysis |
+| **o3-mini** | Fastest | Simple queries | • Lightweight<br>• Quick responses |
+
+
+## Installation
+
+Install this tool using `pip`:
+
+```bash
+pip install duckduckgo-ai-chat
+```
 ## Development
 
 To contribute to this tool, first checkout the code. Then create a new virtual environment:
@@ -80,3 +78,6 @@ To run the tests:
 ```bash
 python -m pytest
 ```
+
+## Disclaimer
+By using this client you accept [DuckDuckGo AI Chat ToS](https://duckduckgo.com/aichat/privacy-terms)
