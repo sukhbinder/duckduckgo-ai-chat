@@ -43,6 +43,27 @@ You can also use:
 ```bash
 python -m duckchat --help
 ```
+
+This produces.
+```bash
+usage: duckchat [-h] [-m {1,2,3,4,5}] [-y]
+
+CLI to use DuckDuckGo AI Chat service from terminal
+
+optional arguments:
+  -h, --help            show this help message and exit
+  
+  -m {1,2,3,4,5}, --model {1,2,3,4,5}
+                        Select a model by key: 
+                          1: gpt-4o-mini, 
+                          2: claude-3-haiku-20240307, 
+                          3: meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo, 
+                          4: mistralai/Mixtral-8x7B-Instruct-v0.1, 
+                          5: o3-mini
+
+  -y, --yes             If provided, means user accept terms of service.
+
+```
 ## Development
 
 To contribute to this tool, first checkout the code. Then create a new virtual environment:
