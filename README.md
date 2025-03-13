@@ -44,6 +44,15 @@ optional arguments:
 
 ```
 
+## Using ``Duckchat`` with ``uv``
+
+Use duckchat without installing with ``uv``
+
+```bash
+uv run --with duckduckgo-ai-chat duckchat
+```
+
+
 ## Available Models
 
 | Model | Performance | Best For | Features |
