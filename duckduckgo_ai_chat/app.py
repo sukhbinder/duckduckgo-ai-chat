@@ -15,6 +15,14 @@ from colorama import Fore, Style, init
 # Initialize colorama
 init(autoreset=True)
 
+MODELS = {
+    "1": "gpt-4o-mini",
+    "2": "claude-3-haiku-20240307",
+    "3": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+    "4": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+    "5": "o3-mini",
+}
+
 
 def print_banner():
     """Print a colorful welcome banner"""
@@ -71,27 +79,18 @@ def accept_terms_of_service():
 
 def choose_model():
     print(Fore.CYAN + "\nPlease choose an AI model:" + Style.RESET_ALL)
-    print(Fore.GREEN + "1. GPT-4o mini")
-    print("2. Claude 3 Haiku")
-    print("3. Llama 3.1 70B")
-    print("4. Mixtral 8x7B")
-    print("5. O3-Mini" + Style.RESET_ALL)
+    print(Fore.GREEN)
+    for key, value in MODELS.items():
+        print(f"{key}. {value}")
+    print(Style.RESET_ALL)
     print()
-
-    models = {
-        "1": "gpt-4o-mini",
-        "2": "claude-3-haiku-20240307",
-        "3": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-        "4": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-        "5": "o3-mini",
-    }
 
     while True:
         choice = input(
             Fore.YELLOW + "Enter your choice (1-5): " + Style.RESET_ALL
         ).strip()
-        if choice in models:
-            return models[choice]
+        if choice in MODELS:
+            return MODELS[choice]
         else:
             print(Fore.RED + "Invalid choice. Please try again." + Style.RESET_ALL)
 
@@ -140,17 +139,20 @@ def process_stream(response, output_queue):
                     continue
 
 
-def mainrun():
+def mainrun(args):
     """Inspired by duckduckGO-chat-cli"""
     # Clear screen (works on most terminals)
     print("\033[H\033[J", end="")
 
     print_banner()
+    if not args.yes:
+        if not accept_terms_of_service():
+            sys.exit(0)
 
-    if not accept_terms_of_service():
-        sys.exit(0)
-
-    model = choose_model()
+    if args.model is None:
+        model = choose_model()
+    else:
+        model = MODELS[args.model]
 
     try:
         vqd = fetch_vqd()
@@ -160,7 +162,7 @@ def mainrun():
 
     print(
         Fore.GREEN
-        + "\nChat initialized successfully. You can start chatting now."
+        + f"\nChat initialized successfully. You can start chatting with `{model}`"
         + Style.RESET_ALL
     )
     print(Fore.YELLOW + "Type 'exit' to end the conversation." + Style.RESET_ALL)
