@@ -15,6 +15,7 @@ from colorama import Fore, Style, init
 # Initialize colorama
 init(autoreset=True)
 
+
 MODELS = {
     "1": "gpt-4o-mini",
     "2": "claude-3-haiku-20240307",
@@ -139,6 +140,20 @@ def process_stream(response, output_queue):
                     continue
 
 
+def checkquery(args):
+    query = args.query
+    stdin_prompt = None
+    if not sys.stdin.isatty():
+        stdin_prompt = sys.stdin.read()
+
+    if stdin_prompt:
+        bits = [stdin_prompt]
+        if query:
+            bits.append(query)
+        query = " ".join(bits)
+    return query
+
+
 def mainrun(args):
     """Inspired by duckduckGO-chat-cli"""
     # Clear screen (works on most terminals)
@@ -153,6 +168,8 @@ def mainrun(args):
         model = choose_model()
     else:
         model = MODELS[args.model]
+
+    query = checkquery(args)
 
     try:
         vqd = fetch_vqd()
@@ -171,9 +188,15 @@ def mainrun(args):
     chat_url = "https://duckduckgo.com/duckchat/v1/chat"
     messages = []
 
+    first = True
     while True:
         print()
-        user_input = input(Fore.BLUE + "You: " + Style.RESET_ALL).strip()
+        if query and first:
+            user_input = query
+            print(Fore.BLUE + "You: " + user_input + Style.RESET_ALL)
+            first = False
+        else:
+            user_input = input(Fore.BLUE + "You: " + Style.RESET_ALL).strip()
         if user_input.lower() == "exit":
             print(Fore.MAGENTA + "Exiting chat. Goodbye!" + Style.RESET_ALL)
             break
