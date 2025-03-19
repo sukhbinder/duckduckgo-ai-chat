@@ -55,13 +55,13 @@ uv run --with duckduckgo-ai-chat duckchat
 
 ## Available Models
 
-| Model Name        | Actual Model                              | Alias          | Performance              | Recommended Usage              | Characteristics                                    |
-| ---------------- | ----------------------------------------- | -------------- | ------------------------ | ----------------------------- | ------------------------------------------------- |
-| **GPT-4o mini**  | gpt-4o-mini                               | gpt-4o-mini    | Fast                     | Quick responses & simple tasks | • Default model<br>• Versatile                    |
-| **Claude 3 Haiku** | claude-3-haiku-20240307                   | claude-3-haiku | Balanced                 | Technical discussions         | • Good context handling<br>• Structured responses  |
-| **Llama 3.3 70B** | meta-llama/Llama-3.3-70B-Instruct-Turbo   | llama          | Code optimized           | Programming tasks             | • Documentation analysis<br>• Code generation      |
-| **Mistral Small 3** | mistralai/Mistral-Small-24B-Instruct-2501 | mixtral        | Knowledge focused        | Complex topics                | • Detailed explanations<br>• In-depth analysis    |
-| **o3-mini**      | o3-mini                                   | o3mini         | Very fast                | Simple queries                | • Lightweight<br>• Quick responses                |
+| Model Name | Actual Model   | Performance    | Recommended Usage | Characteristics         |
+|------------|----------------|----------------|---------------------|--------------------------|
+| GPT-4o mini | gpt-4o-mini     | Fast           | Quick, simple tasks  | Default model, Versatile  |
+| Claude 3 Haiku | claude-3-haiku-20240307 | Balanced      | Technical discussions | Good context handling, Structured responses|
+| Llama 3.3 70B | meta-llama/Llama-3.3-70B-Instruct-Turbo | Code optimized | Programming tasks     | Documentation analysis, Code generation|
+| Mistral Small 3 | mistralai/Mistral-Small-24B-Instruct-2501 | Knowledge focused | Complex topics        | Detailed explanations, In-depth analysis|
+| o3-mini    | o3-mini          | Very fast      | Simple queries        | Lightweight, Quick responses|
 
 
 ## Installation
