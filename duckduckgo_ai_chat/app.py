@@ -154,6 +154,15 @@ def checkquery(args):
     return query
 
 
+def reset_stdin():
+    # Reset stdin if EOF was reached (needed for non-interactive input cases)
+    if sys.stdin.closed or not sys.stdin.isatty():
+        if sys.platform.startswith("win"):
+            sys.stdin = open("CON", "r")
+        else:
+            sys.stdin = open("/dev/tty")
+
+
 def mainrun(args):
     """Inspired by duckduckGO-chat-cli"""
     # Clear screen (works on most terminals)
@@ -197,7 +206,7 @@ def mainrun(args):
             first = False
         else:
             user_input = input(Fore.BLUE + "You: " + Style.RESET_ALL).strip()
-        if user_input.lower() == "exit":
+        if user_input.lower() in ("exit", "quit"):
             print(Fore.MAGENTA + "Exiting chat. Goodbye!" + Style.RESET_ALL)
             break
 
@@ -223,6 +232,7 @@ def mainrun(args):
 
         print()
         thread.join()
+        reset_stdin()
 
 
 if __name__ == "__main__":
