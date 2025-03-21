@@ -58,7 +58,7 @@ def test_choose_model_invalid_then_valid(mock_input):
 @patch("requests.get")
 def test_fetch_vqd_success(mock_get):
     mock_get.return_value = Mock(status_code=200, headers={"x-vqd-4": "vqd_value"})
-    result = fetch_vqd()
+    result, _ = fetch_vqd()
     assert result == "vqd_value"
 
 
@@ -84,9 +84,10 @@ def test_fetch_response_success(mock_post):
 
     chat_url = "https://dummy-chat-url.com"
     vqd = "dummy_vqd"
+    vqd_hash_1 = "dummy"
     model = "dummy_model"
     messages = [{"content": "Test message", "role": "user"}]
-    response = fetch_response(chat_url, vqd, model, messages)
+    response = fetch_response(chat_url, vqd, vqd_hash_1, model, messages)
 
     assert response.status_code == 200
 
@@ -96,12 +97,13 @@ def test_fetch_response_failure(mock_post):
     mock_post.return_value = Mock(status_code=500, text="Internal Server Error")
     chat_url = "https://dummy-chat-url.com"
     vqd = "dummy_vqd"
+    vqd_hash_1 = "dummy"
     model = "dummy_model"
     messages = [{"content": "Test message", "role": "user"}]
     with pytest.raises(
         Exception, match="Failed to send message: 500 Internal Server Error"
     ):
-        fetch_response(chat_url, vqd, model, messages)
+        fetch_response(chat_url, vqd, vqd_hash_1, model, messages)
 
 
 # Test process_stream
