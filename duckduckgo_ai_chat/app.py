@@ -20,7 +20,7 @@ MODELS = {
     "1": "gpt-4o-mini",
     "2": "claude-3-haiku-20240307",
     "3": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-    "4": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+    "4": "mistralai/Mistral-Small-24B-Instruct-2501",
     "5": "o3-mini",
 }
 
@@ -102,20 +102,23 @@ def fetch_vqd():
     headers = {"x-vqd-accept": "1"}
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        return response.headers.get("x-vqd-4")
+        return response.headers.get("x-vqd-4"), response.headers.get("x-vqd-hash-1", "")
     else:
         raise Exception(
             f"Failed to initialize chat: {response.status_code} {response.text}"
         )
 
 
-def fetch_response(chat_url, vqd, model, messages):
+def fetch_response(chat_url, vqd, vqd_hash_1, model, messages):
     payload = {"model": model, "messages": messages}
     headers = {
         "x-vqd-4": vqd,
         "Content-Type": "application/json",
         "Accept": "text/event-stream",
     }
+    if vqd_hash_1:
+        headers["x-vqd-hash-1"] = vqd_hash_1
+
     response = requests.post(chat_url, headers=headers, json=payload, stream=True)
     if response.status_code != 200:
         raise Exception(
@@ -181,7 +184,7 @@ def mainrun(args):
     query = checkquery(args)
 
     try:
-        vqd = fetch_vqd()
+        vqd, vqd_hash_1 = fetch_vqd()
     except Exception as e:
         print(Fore.RED + f"Error: {e}" + Style.RESET_ALL)
         sys.exit(1)
@@ -213,7 +216,7 @@ def mainrun(args):
         messages.append({"content": user_input, "role": "user"})
 
         try:
-            response = fetch_response(chat_url, vqd, model, messages)
+            response = fetch_response(chat_url, vqd, vqd_hash_1, model, messages)
         except Exception as e:
             print(Fore.RED + f"Error: {e}" + Style.RESET_ALL)
             continue

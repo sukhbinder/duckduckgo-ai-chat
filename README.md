@@ -37,7 +37,7 @@ optional arguments:
                           1: gpt-4o-mini, 
                           2: claude-3-haiku-20240307, 
                           3: meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo, 
-                          4: mistralai/Mixtral-8x7B-Instruct-v0.1, 
+                          4: mistralai/Mistral-Small-24B-Instruct-2501, 
                           5: o3-mini
 
   -y, --yes             If provided, means user accept terms of service.
@@ -55,13 +55,13 @@ uv run --with duckduckgo-ai-chat duckchat
 
 ## Available Models
 
-| Model | Performance | Best For | Features |
-|-------|------------|----------|-----------|
-| **GPT-4o mini** | Fast | Quick answers & basic tasks | • General-purpose |
-| **Claude 3 Haiku** | Balanced | Technical discussions | • Good context handling<br>• Structured responses |
-| **Llama 3.3** | Code-optimized | Programming tasks | • Documentation analysis<br>• Code generation |
-| **Mixtral 8x7B** | Knowledge-focused | Complex topics | • Detailed explanations<br>• Deep analysis |
-| **o3-mini** | Fastest | Simple queries | • Lightweight<br>• Quick responses |
+| Model Name | Actual Model   | Performance    | Recommended Usage | Characteristics         |
+|------------|----------------|----------------|---------------------|--------------------------|
+| GPT-4o mini | gpt-4o-mini     | Fast           | Quick, simple tasks  | Default model, Versatile  |
+| Claude 3 Haiku | claude-3-haiku-20240307 | Balanced      | Technical discussions | Good context handling, Structured responses|
+| Llama 3.3 70B | meta-llama/Llama-3.3-70B-Instruct-Turbo | Code optimized | Programming tasks     | Documentation analysis, Code generation|
+| Mistral Small 3 | mistralai/Mistral-Small-24B-Instruct-2501 | Knowledge focused | Complex topics        | Detailed explanations, In-depth analysis|
+| o3-mini    | o3-mini          | Very fast      | Simple queries        | Lightweight, Quick responses|
 
 
 ## Installation
