@@ -25,24 +25,40 @@ python -m duckchat --help
 
 This produces.
 ```bash
-usage: duckchat [-h] [-m {1,2,3,4,5}] [-y]
+usage: duckchat [-h] [-m {1,2,3,4,5}] [-y] [-q QUERY]
 
 CLI to use DuckDuckGo AI Chat service from terminal
 
 optional arguments:
   -h, --help            show this help message and exit
-  
   -m {1,2,3,4,5}, --model {1,2,3,4,5}
-                        Select a model by key: 
-                          1: gpt-4o-mini, 
-                          2: claude-3-haiku-20240307, 
-                          3: meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo, 
-                          4: mistralai/Mistral-Small-24B-Instruct-2501, 
-                          5: o3-mini
-
+                        Select a model by key:
+                         1: gpt-4o-mini
+                         2: claude-3-haiku-20240307
+                         3: meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo
+                         4: mistralai/Mistral-Small-24B-Instruct-2501
+                         5: o3-mini
   -y, --yes             If provided, means user accept terms of service.
+  -q QUERY, --query QUERY
+                        First query to submit to the model
 
 ```
+
+### Initial Query
+
+Now we can pass initial context when invoking a model.
+
+```bash
+cat app.py | duckchat --yes --model 4 --query "Explain this code" 
+```
+
+or launch a model with an initial query
+
+```bash
+duckchat -y -m 4 -q "How to use pytest-vcr?" 
+```
+
+![query demo](https://raw.githubusercontent.com/sukhbinder/duckduckgo-aichat/main/query-demo.gif)
 
 ## Using ``Duckchat`` with ``uv``
 
