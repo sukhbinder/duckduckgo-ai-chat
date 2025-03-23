@@ -44,9 +44,9 @@ optional arguments:
 
 ```
 
-### Initial Query
+## Using ``duckchat`` with initial Query
 
-Now we can pass initial context when invoking a model.
+Now we can pass initial context when invoking a model with `duckchat`
 
 ```bash
 cat app.py | duckchat --yes --model 4 --query "Explain this code" 
