@@ -23,6 +23,10 @@ def create_parser():
         help="If provided, means user accept terms of service.",
     )
 
+    parser.add_argument(
+        "-q", "--query", help="First query to submit to the model", default=None
+    )
+
     return parser
 
 
