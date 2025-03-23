@@ -168,9 +168,19 @@ def reset_stdin():
             sys.stdin = open("/dev/tty")
 
 
+def get_download_folder():
+    if os.name == "nt":  # Windows
+        home_dir = os.environ["USERPROFILE"]
+    elif os.name == "posix":  # Linux/Mac
+        home_dir = os.path.expanduser("~")
+    else:
+        home_dir = os.getcwd()
+    return os.path.join(home_dir, "Downloads")
+
+
 def save_session(responses):
     datetime_str = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-    filepath = os.path.join(os.getcwd(), f"duckchat_{datetime_str}.txt")
+    filepath = os.path.join(get_download_folder(), f"duckchat_{datetime_str}.txt")
     with open(filepath, "w") as fin:
         fin.writelines(responses)
 
