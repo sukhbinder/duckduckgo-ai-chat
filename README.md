@@ -68,6 +68,15 @@ Use duckchat without installing with ``uv``
 uv run --with duckduckgo-ai-chat duckchat
 ```
 
+## Saving conversations in ``duckchat``
+Now user can save their conversaions using the ``/save`` command within the ``duckchat`` interface.
+
+![Save demo](https://raw.githubusercontent.com/sukhbinder/duckduckgo-aichat/main/duckchat-save-option.png)
+
+And the saved file looks like this
+
+![Saved example](https://raw.githubusercontent.com/sukhbinder/duckduckgo-aichat/main/duckcha-saved-example.png)
+
 
 ## Available Models
 
