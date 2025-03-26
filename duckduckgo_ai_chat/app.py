@@ -12,6 +12,8 @@ from threading import Thread
 from queue import Queue
 from colorama import Fore, Style, init
 import random
+from datetime import datetime
+import os
 
 # Initialize colorama
 init(autoreset=True)
@@ -188,6 +190,24 @@ def reset_stdin():
             sys.stdin = open("/dev/tty")
 
 
+def get_download_folder():
+    if os.name == "nt":  # Windows
+        home_dir = os.environ["USERPROFILE"]
+    elif os.name == "posix":  # Linux/Mac
+        home_dir = os.path.expanduser("~")
+    else:
+        home_dir = os.getcwd()
+    return os.path.join(home_dir, "Downloads")
+
+
+def save_session(responses):
+    datetime_str = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    filepath = os.path.join(get_download_folder(), f"duckchat_{datetime_str}.txt")
+    with open(filepath, "w") as fin:
+        fin.writelines(responses)
+    print(Fore.GREEN + f"\nChat saved successfully. {filepath}" + Style.RESET_ALL)
+
+
 def mainrun(args):
     """Inspired by duckduckGO-chat-cli"""
     # Clear screen (works on most terminals)
@@ -216,12 +236,16 @@ def mainrun(args):
         + f"\nChat initialized successfully. You can start chatting with `{model}`"
         + Style.RESET_ALL
     )
-    print(Fore.YELLOW + "Type 'exit' to end the conversation." + Style.RESET_ALL)
+    print(
+        Fore.YELLOW
+        + "Type 'exit' or 'quit' to end the conversation.\nType `/save` to save conversation"
+        + Style.RESET_ALL
+    )
     print()
 
     chat_url = "https://duckduckgo.com/duckchat/v1/chat"
     messages = []
-
+    responses = [f"Your chat with {model}\n\n"]
     first = True
     while True:
         print()
@@ -231,11 +255,17 @@ def mainrun(args):
             first = False
         else:
             user_input = input(Fore.BLUE + "You: " + Style.RESET_ALL).strip()
+        # Handle exit
         if user_input.lower() in ("exit", "quit"):
             print(Fore.MAGENTA + "Exiting chat. Goodbye!" + Style.RESET_ALL)
             break
+        # Handle save
+        if user_input.lower() in ("/save", "/export"):
+            save_session(responses)
+            continue
 
         messages.append({"content": user_input, "role": "user"})
+        responses.append(f"User: {user_input}\n\n")
 
         try:
             response = fetch_response(chat_url, vqd, vqd_hash_1, model, messages)
@@ -248,16 +278,17 @@ def mainrun(args):
         thread.start()
 
         print()
+        response_text = ""
         print(Fore.GREEN + "AI: " + Style.RESET_ALL, end=" ")
         while thread.is_alive() or not output_queue.empty():
             while not output_queue.empty():
-                print(
-                    Fore.CYAN + output_queue.get() + Style.RESET_ALL, end="", flush=True
-                )
-
+                rsp_text = output_queue.get()
+                print(Fore.CYAN + rsp_text + Style.RESET_ALL, end="", flush=True)
+                response_text += rsp_text
         print()
         thread.join()
         reset_stdin()
+        responses.append(f"AI: {response_text}\n\n\n")
 
 
 if __name__ == "__main__":

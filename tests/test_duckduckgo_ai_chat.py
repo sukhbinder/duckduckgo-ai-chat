@@ -1,13 +1,18 @@
 import pytest
 from unittest.mock import patch, Mock
 from queue import Queue
-import json
+import tempfile
+import os
+from unittest.mock import patch, mock_open
+from datetime import datetime
 from duckduckgo_ai_chat.app import (
     accept_terms_of_service,
     choose_model,
     fetch_vqd,
     fetch_response,
     process_stream,
+    save_session,
+    mainrun,
 )
 
 from duckduckgo_ai_chat import cli
@@ -122,3 +127,46 @@ def test_process_stream():
     assert output_queue.get() == "First message"
     assert output_queue.get() == "Second message"
     assert output_queue.empty()
+
+
+@patch("duckduckgo_ai_chat.app.get_download_folder", return_value=tempfile.gettempdir())
+@patch("duckduckgo_ai_chat.app.open", new_callable=mock_open)
+@patch("duckduckgo_ai_chat.app.datetime")
+def test_save_session(mock_datetime, mock_open_func, mock_get_download_folder):
+    mock_now = datetime(2025, 3, 25, 12, 30, 45)
+    mock_datetime.now.return_value = mock_now
+    mock_datetime.strftime.return_value = "2025_03_25_12_30_45"
+
+    responses = ["User: Hello\n", "AI: Hi there!\n\n"]
+    save_session(responses)
+
+    filename = f"duckchat_2025_03_25_12_30_45.txt"
+    expected_path = os.path.join(tempfile.gettempdir(), filename)
+
+    mock_open_func.assert_called_once_with(expected_path, "w")
+    handle = mock_open_func()
+    handle.writelines.assert_called_once_with(responses)
+
+
+@patch("builtins.input", side_effect=["/save", "exit"])
+@patch("duckduckgo_ai_chat.app.save_session")
+@patch("duckduckgo_ai_chat.app.fetch_vqd", return_value=("dummy_vqd", "dummy_hash"))
+@patch("duckduckgo_ai_chat.app.checkquery", return_value="")
+@patch("duckduckgo_ai_chat.app.choose_model", return_value="gpt-4")
+@patch("duckduckgo_ai_chat.app.accept_terms_of_service", return_value=True)
+@patch("duckduckgo_ai_chat.app.print_banner")
+def test_mainrun_save(
+    mock_print_banner,
+    mock_accept_tos,
+    mock_choose_model,
+    mock_checkquery,
+    mock_fetch_vqd,
+    mock_save_session,
+    mock_input,
+):
+    class Args:
+        yes = True
+        model = None
+
+    mainrun(Args())
+    mock_save_session.assert_called_once()
