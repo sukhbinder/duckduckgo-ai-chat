@@ -1,6 +1,6 @@
 [project]
 name = "duckduckgo-ai-chat"
-version = "0.0.6"
+version = "0.0.7"
 description = "CLI to use DuckDuckGo AI Chat service from terminal"
 readme = "README.md"
 authors = [{name = "Sukhbinder Singh"}]
