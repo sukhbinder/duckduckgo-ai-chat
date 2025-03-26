@@ -205,6 +205,7 @@ def save_session(responses):
     filepath = os.path.join(get_download_folder(), f"duckchat_{datetime_str}.txt")
     with open(filepath, "w") as fin:
         fin.writelines(responses)
+    print(Fore.GREEN + f"\nChat saved successfully. {filepath}" + Style.RESET_ALL)
 
 
 def mainrun(args):
@@ -236,7 +237,9 @@ def mainrun(args):
         + Style.RESET_ALL
     )
     print(
-        Fore.YELLOW + "Type 'exit' or 'quit' to end the conversation." + Style.RESET_ALL
+        Fore.YELLOW
+        + "Type 'exit' or 'quit' to end the conversation.\nType `/save` to save conversation"
+        + Style.RESET_ALL
     )
     print()
 
