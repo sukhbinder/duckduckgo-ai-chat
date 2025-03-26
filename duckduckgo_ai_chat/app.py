@@ -11,6 +11,7 @@ import sys
 from threading import Thread
 from queue import Queue
 from colorama import Fore, Style, init
+import random
 from datetime import datetime
 import os
 
@@ -101,10 +102,26 @@ def choose_model():
 def fetch_vqd():
     print(Fore.MAGENTA + "Initializing chat connection..." + Style.RESET_ALL)
     url = "https://duckduckgo.com/duckchat/v1/status"
-    headers = {"x-vqd-accept": "1"}
+    headers = {
+        "accept": "text/event-stream",
+        "accept-language": "en-US,en;q=0.9",
+        "cache-control": "no-cache",
+        "content-type": "application/json",
+        "pragma": "no-cache",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "origin": "https://duckduckgo.com",
+        "referer": "https://duckduckgo.com/",
+        "x-vqd-accept": "1",
+    }
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        return response.headers.get("x-vqd-4"), response.headers.get("x-vqd-hash-1", "")
+        # Generate a random string for vqd_hash_1 instead of getting it from response headers
+        letters = "abcdefghijklmnopqrstuvwxyz"
+        random_hash = "".join(random.choice(letters) for _ in range(7))
+        vqd_hash_1 = random_hash
+        vqd = response.headers.get("x-vqd-4")
+        if vqd:
+            return vqd, vqd_hash_1
     else:
         raise Exception(
             f"Failed to initialize chat: {response.status_code} {response.text}"
@@ -114,11 +131,16 @@ def fetch_vqd():
 def fetch_response(chat_url, vqd, vqd_hash_1, model, messages):
     payload = {"model": model, "messages": messages}
     headers = {
+        "accept": "text/event-stream",
+        "accept-language": "en-US,en;q=0.9",
+        "content-type": "application/json",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "origin": "https://duckduckgo.com",
+        "referer": "https://duckduckgo.com/",
         "x-vqd-4": vqd,
-        "Content-Type": "application/json",
-        "Accept": "text/event-stream",
     }
-    if vqd_hash_1:
+
+    if vqd and vqd_hash_1:
         headers["x-vqd-hash-1"] = vqd_hash_1
 
     response = requests.post(chat_url, headers=headers, json=payload, stream=True)
