@@ -75,7 +75,7 @@ Now user can save their conversaions using the ``/save`` command within the ``du
 
 And the saved file looks like this
 
-![Saved example](https://raw.githubusercontent.com/sukhbinder/duckduckgo-aichat/main/duckcha-saved-example.png)
+![Saved example](https://raw.githubusercontent.com/sukhbinder/duckduckgo-aichat/main/duckchat-saved-example.png)
 
 
 ## Available Models
