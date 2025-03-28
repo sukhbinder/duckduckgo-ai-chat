@@ -14,10 +14,12 @@ from colorama import Fore, Style, init
 import random
 from datetime import datetime
 import os
+import time
 
 # Initialize colorama
 init(autoreset=True)
 
+DEBUG = True
 
 MODELS = {
     "1": "gpt-4o-mini",
@@ -115,10 +117,7 @@ def fetch_vqd():
     }
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        # Generate a random string for vqd_hash_1 instead of getting it from response headers
-        letters = "abcdefghijklmnopqrstuvwxyz"
-        random_hash = "".join(random.choice(letters) for _ in range(7))
-        vqd_hash_1 = random_hash
+        vqd_hash_1 = response.headers.get("x-vqd-hash-1", "")
         vqd = response.headers.get("x-vqd-4")
         if vqd:
             return vqd, vqd_hash_1
@@ -138,12 +137,14 @@ def fetch_response(chat_url, vqd, vqd_hash_1, model, messages):
         "origin": "https://duckduckgo.com",
         "referer": "https://duckduckgo.com/",
         "x-vqd-4": vqd,
+        "x-vqd-hash-1": "",
     }
 
-    if vqd and vqd_hash_1:
-        headers["x-vqd-hash-1"] = vqd_hash_1
-
     response = requests.post(chat_url, headers=headers, json=payload, stream=True)
+    
+    if DEBUG:
+        if response.status_code == 418:
+            return response
     if response.status_code != 200:
         raise Exception(
             f"Failed to send message: {response.status_code} {response.text}"
@@ -242,7 +243,6 @@ def mainrun(args):
         + Style.RESET_ALL
     )
     print()
-
     chat_url = "https://duckduckgo.com/duckchat/v1/chat"
     messages = []
     responses = [f"Your chat with {model}\n\n"]
@@ -273,6 +273,7 @@ def mainrun(args):
             print(Fore.RED + f"Error: {e}" + Style.RESET_ALL)
             continue
 
+        vqd_hash_1 = response.headers.get("x-vqd-hash-1", vqd_hash_1)
         output_queue = Queue()
         thread = Thread(target=process_stream, args=(response, output_queue))
         thread.start()
