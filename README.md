@@ -1,3 +1,5 @@
+IMPORTANT NOTICE: This repository is no longer maintained. Consider using [duckduckGO-chat-cli](https://github.com/benoitpetit/duckduckGO-chat-cli)
+
 # duckduckgo-ai-chat
 
 [![PyPI](https://img.shields.io/pypi/v/duckduckgo-ai-chat.svg)](https://pypi.org/project/duckduckgo-ai-chat/)
